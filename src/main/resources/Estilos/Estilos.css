@@ -1,0 +1,25 @@
+.root {
+    -fx-background-color:#f9a4a4;
+}
+.button {
+    -fx-font-weight: bold;
+}
+.btnGuardar {
+    -fx-background-color: #ff0000;
+}
+.btnCancelar {
+    -fx-background-color: #ff0000;
+}
+.btnEliminar {
+    -fx-background-color: #ff0000;
+}
+.btnEliminar:disabled {
+    -fx-border-color: gray;
+    -fx-background-color: blue;
+}
+.btnCerrar {
+    -fx-background-color: #cffab9;
+}
+.btnSeleccionar {
+    -fx-background-color: #cffab9;
+}
