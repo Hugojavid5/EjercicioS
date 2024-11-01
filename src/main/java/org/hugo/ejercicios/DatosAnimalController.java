@@ -112,11 +112,16 @@ public class DatosAnimalController implements Initializable {
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files","*.jpg","*.png"));
         File file = fileChooser.showOpenDialog(null);
         try {
-            InputStream imagen = new FileInputStream(file);
-            Blob blob = DaoAnimal.convertFileToBlob(file);
-            this.imagen = blob;
-            foto.setImage(new Image(imagen));
-            btt_FotoBorrar.setDisable(false);
+            double kbs = (double) file.length() / 1024;
+            if (kbs > 64) {
+                alerta("La imagen no puede ser mayor a 64KB");
+            } else {
+                InputStream imagen = new FileInputStream(file);
+                Blob blob = DaoAnimal.convertFileToBlob(file);
+                this.imagen = blob;
+                foto.setImage(new Image(imagen));
+                btt_FotoBorrar.setDisable(false);
+            }
         } catch (IOException|NullPointerException e) {
             //e.printStackTrace();
             System.out.println("Imagen no seleccionada");
