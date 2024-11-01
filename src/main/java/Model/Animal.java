@@ -1,5 +1,6 @@
 package Model;
 
+import java.io.InputStream;
 import java.sql.Blob;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -14,9 +15,10 @@ public class Animal {
     private int peso;
     private String observaciones;
     private LocalDate fecha_primera_consulta;
-    private Blob foto;
+    private InputStream foto;
 
-    public Animal(int id, String nombre, String especie, String raza, String sexo, int edad, int peso, String observaciones, LocalDate fecha_primera_consulta, Blob foto) {
+
+    public Animal(int id, String nombre, String especie, String raza, String sexo, int edad, int peso, String observaciones, LocalDate fecha_primera_consulta, InputStream foto) {
         this.id = id;
         this.nombre = nombre;
         this.especie = especie;
@@ -86,10 +88,10 @@ public class Animal {
     public void setFecha_primera_consulta(LocalDate fecha_primera_consulta) {
         this.fecha_primera_consulta = fecha_primera_consulta;
     }
-    public Blob getFoto() {
+    public InputStream getFoto() {
         return foto;
     }
-    public void setFoto(Blob foto) {
+    public void setFoto(InputStream foto) {
         this.foto = foto;
     }
     @Override
