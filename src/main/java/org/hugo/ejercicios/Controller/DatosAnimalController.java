@@ -31,13 +31,13 @@ public class DatosAnimalController implements Initializable {
     private Object animal = null;
     private Animal ap;
     @FXML
-    private Button btCancelar;
+    private Button btt_Cancelar;
 
     @FXML
-    private Button btGuardar;
+    private Button btt_Guardar;
 
     @FXML
-    private Button btImg;
+    private Button btt_Img;
 
     @FXML
     private DatePicker datePicker;
@@ -46,31 +46,31 @@ public class DatosAnimalController implements Initializable {
     private ImageView imgView;
 
     @FXML
-    private Label lblDatos;
+    private Label lbl_Datos;
 
     @FXML
-    private Label lblEdad;
+    private Label lbl_Edad;
 
     @FXML
-    private Label lblEspecie;
+    private Label lbl_Especie;
 
     @FXML
-    private Label lblFecha;
+    private Label lbl_Fecha;
 
     @FXML
-    private Label lblNombre;
+    private Label lbl_Nombre;
 
     @FXML
-    private Label lblObservaciones;
+    private Label lbl_Observaciones;
 
     @FXML
-    private Label lblPeso;
+    private Label lbl_Peso;
 
     @FXML
-    private Label lblRaza;
+    private Label lbl_Raza;
 
     @FXML
-    private Label lblSexo;
+    private Label lbl_Sexo;
 
     @FXML
     private FlowPane panelBotones;
@@ -79,25 +79,25 @@ public class DatosAnimalController implements Initializable {
     private GridPane rootPane;
 
     @FXML
-    private TextField txtEdad;
+    private TextField txt_Edad;
 
     @FXML
-    private TextField txtEspecie;
+    private TextField txt_Especie;
 
     @FXML
-    private TextField txtNombre;
+    private TextField txt_Nombre;
 
     @FXML
-    private TextField txtObservaciones;
+    private TextField txt_Observaciones;
 
     @FXML
-    private TextField txtPeso;
+    private TextField txt_Peso;
 
     @FXML
-    private TextField txtRaza;
+    private TextField txt_Raza;
 
     @FXML
-    private TextField txtSexo;
+    private TextField txt_Sexo;
 
     private Blob imagenBlob;
 
@@ -114,8 +114,8 @@ public class DatosAnimalController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        btGuardar.setDefaultButton(true);
-        btCancelar.setCancelButton(true);
+        btt_Guardar.setDefaultButton(true);
+        btt_Cancelar.setCancelButton(true);
 
         if (animal == null) {
             System.out.println("Null");
@@ -123,13 +123,13 @@ public class DatosAnimalController implements Initializable {
             Animal anm = (Animal) animal;
             this.ap = anm;
 
-            txtNombre.setText(anm.getNombre());
-            txtEspecie.setText(anm.getEspecie());
-            txtRaza.setText(anm.getRaza());
-            txtSexo.setText(anm.getSexo());
-            txtEdad.setText(String.valueOf(anm.getEdad()));
-            txtPeso.setText(String.valueOf(anm.getPeso()));
-            txtObservaciones.setText(anm.getObservaciones());
+            txt_Nombre.setText(anm.getNombre());
+            txt_Especie.setText(anm.getEspecie());
+            txt_Raza.setText(anm.getRaza());
+            txt_Sexo.setText(anm.getSexo());
+            txt_Edad.setText(String.valueOf(anm.getEdad()));
+            txt_Peso.setText(String.valueOf(anm.getPeso()));
+            txt_Observaciones.setText(anm.getObservaciones());
 
             if (anm.getFoto() != null) {
                 System.out.println("Has image");
@@ -147,7 +147,7 @@ public class DatosAnimalController implements Initializable {
 
     @FXML
     void cancelar(ActionEvent event) {
-        Stage stage = (Stage) txtNombre.getScene().getWindow();
+        Stage stage = (Stage) txt_Nombre.getScene().getWindow();
         stage.close();
     }
 
@@ -157,49 +157,49 @@ public class DatosAnimalController implements Initializable {
         String error = "";
 
         // Validación del campo nombre
-        if (txtNombre.getText().isEmpty()) {
+        if (txt_Nombre.getText().isEmpty()) {
             lst.add("Campo nombre no puede estar vacío");
         }
 
         // Validación del campo especie
-        if (txtEspecie.getText().isEmpty()) {
+        if (txt_Especie.getText().isEmpty()) {
             lst.add("Campo especie no puede estar vacío");
         }
 
         // Validación del campo raza
-        if (txtRaza.getText().isEmpty()) {
+        if (txt_Raza.getText().isEmpty()) {
             lst.add("Campo raza no puede estar vacío");
         }
 
         // Validación del campo sexo
-        if (txtSexo.getText().isEmpty()) {
+        if (txt_Sexo.getText().isEmpty()) {
             lst.add("Campo sexo no puede estar vacío");
         }
 
         // Validación del campo edad
-        if (txtEdad.getText().isEmpty()) {
+        if (txt_Edad.getText().isEmpty()) {
             lst.add("Campo edad no puede estar vacío");
         } else {
             try {
-                int edad = Integer.parseInt(txtEdad.getText());
+                int edad = Integer.parseInt(txt_Edad.getText());
             } catch (NumberFormatException e) {
                 lst.add("Campo edad tiene que ser numérico");
             }
         }
 
         // Validación del campo peso
-        if (txtPeso.getText().isEmpty()) {
+        if (txt_Peso.getText().isEmpty()) {
             lst.add("Campo peso no puede estar vacío");
         } else {
             try {
-                double peso = Double.parseDouble(txtPeso.getText());
+                double peso = Double.parseDouble(txt_Peso.getText());
             } catch (NumberFormatException e) {
                 lst.add("Campo peso tiene que ser numérico");
             }
         }
 
         // Validación del campo observaciones
-        if (txtObservaciones.getText().isEmpty()) {
+        if (txt_Observaciones.getText().isEmpty()) {
             lst.add("Campo observaciones no puede estar vacío");
         }
 
@@ -217,7 +217,7 @@ public class DatosAnimalController implements Initializable {
 
             // Cerrar la ventana si la operación fue exitosa
             if (resultado) {
-                Stage stage = (Stage) txtNombre.getScene().getWindow();
+                Stage stage = (Stage) txt_Nombre.getScene().getWindow();
                 stage.close();
             }
         }
@@ -227,29 +227,29 @@ public class DatosAnimalController implements Initializable {
         try {
             Animal animal = new Animal();
             animal.setId(ap.getId());
-            animal.setNombre(txtNombre.getText());
-            animal.setEspecie(txtEspecie.getText());
-            animal.setRaza(txtRaza.getText());
-            animal.setSexo(txtSexo.getText());
+            animal.setNombre(txt_Nombre.getText());
+            animal.setEspecie(txt_Especie.getText());
+            animal.setRaza(txt_Raza.getText());
+            animal.setSexo(txt_Sexo.getText());
 
-            if (txtEdad.getText().isEmpty()) {
+            if (txt_Edad.getText().isEmpty()) {
                 ArrayList<String> lst = new ArrayList<>();
                 lst.add("Campo edad no puede estar vacío");
                 alerta(lst);
                 return false;
             }
-            animal.setEdad(Integer.parseInt(txtEdad.getText()));
+            animal.setEdad(Integer.parseInt(txt_Edad.getText()));
 
-            if (txtPeso.getText().isEmpty()) {
+            if (txt_Peso.getText().isEmpty()) {
                 ArrayList<String> lst = new ArrayList<>();
                 lst.add("Campo peso no puede estar vacío");
                 alerta(lst);
                 return false;
             }
-            animal.setPeso(Double.parseDouble(txtPeso.getText()));
+            animal.setPeso(Double.parseDouble(txt_Peso.getText()));
 
             // Validación y establecimiento de las observaciones
-            if (txtObservaciones.getText().isEmpty()) {
+            if (txt_Observaciones.getText().isEmpty()) {
                 ArrayList<String> lst = new ArrayList<>();
                 lst.add("Campo observaciones no puede estar vacío");
                 alerta(lst);
@@ -262,7 +262,7 @@ public class DatosAnimalController implements Initializable {
             } else {
                 System.out.println("No date selected.");
             }
-            animal.setObservaciones(txtObservaciones.getText());
+            animal.setObservaciones(txt_Observaciones.getText());
 
             // Establecimiento de la imagen
             animal.setFoto(imagenBlob);
@@ -294,31 +294,31 @@ public class DatosAnimalController implements Initializable {
     public boolean crearAnimal() {
         try {
             Animal animal = new Animal();
-            animal.setNombre(txtNombre.getText());
-            animal.setEspecie(txtEspecie.getText());
-            animal.setRaza(txtRaza.getText());
-            animal.setSexo(txtSexo.getText());
+            animal.setNombre(txt_Nombre.getText());
+            animal.setEspecie(txt_Especie.getText());
+            animal.setRaza(txt_Raza.getText());
+            animal.setSexo(txt_Sexo.getText());
 
             // Validación y establecimiento de la edad
-            if (txtEdad.getText().isEmpty()) {
+            if (txt_Edad.getText().isEmpty()) {
                 alerta(new ArrayList<>(List.of("Campo edad no puede estar vacío")));
                 return false;
             }
-            animal.setEdad(Integer.parseInt(txtEdad.getText()));
+            animal.setEdad(Integer.parseInt(txt_Edad.getText()));
 
             // Validación y establecimiento del peso
-            if (txtPeso.getText().isEmpty()) {
+            if (txt_Peso.getText().isEmpty()) {
                 alerta(new ArrayList<>(List.of("Campo peso no puede estar vacío")));
                 return false;
             }
-            animal.setPeso(Double.parseDouble(txtPeso.getText()));
+            animal.setPeso(Double.parseDouble(txt_Peso.getText()));
 
             // Validación y establecimiento de las observaciones
-            if (txtObservaciones.getText().isEmpty()) {
+            if (txt_Observaciones.getText().isEmpty()) {
                 alerta(new ArrayList<>(List.of("Campo observaciones no puede estar vacío")));
                 return false;
             }
-            animal.setObservaciones(txtObservaciones.getText());
+            animal.setObservaciones(txt_Observaciones.getText());
             LocalDate localDate = datePicker.getValue();
             if (localDate != null) {
                 // Convert LocalDate to Date

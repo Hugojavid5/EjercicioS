@@ -1,0 +1,22 @@
+.root {
+    -fx-background-color: #ffb2b2;
+}
+.button {
+    -fx-background-color: #c3ffb2;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+    -fx-padding: 5px;
+    -fx-border-radius: 2px;
+    -fx-background-radius: 2px;
+    -fx-pref-width: -1;
+    -fx-pref-height: -1;
+    -fx-min-width: 0;
+    -fx-min-height: 0;
+}
+.button:hover {
+    -fx-background-color: #fb0000;
+}
+
+.label {
+    -fx-text-fill: black;
+}

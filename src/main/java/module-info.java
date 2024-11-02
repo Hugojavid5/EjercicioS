@@ -5,5 +5,7 @@ module org.hugo.ejercicios {
 
 
     opens org.hugo.ejercicios to javafx.fxml;
-    exports org.hugo.ejercicios;
+    opens org.hugo.ejercicios.Controller to javafx.fxml;
+    exports org.hugo.ejercicios.AppAnimal;
+    opens org.hugo.ejercicios.AppAnimal to javafx.fxml;
 }
