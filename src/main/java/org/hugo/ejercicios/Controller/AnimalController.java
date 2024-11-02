@@ -120,6 +120,137 @@ public class AnimalController implements Initializable {
             e.printStackTrace(); // Manejo de errores
         }
     }
+    @FXML
+    void aniadirAnimal(ActionEvent event) {
+        try {
+            Window ventana = txt_Nombre.getScene().getWindow();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/datosAnimal.fxml"));
+            DatosAnimalController controlador = new DatosAnimalController();
+            fxmlLoader.setController(controlador);
+            Scene scene = new Scene(fxmlLoader.load());
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            try {
+                Image img = new Image(getClass().getResource("/Imagenes/veet.jpg").toString());
+                stage.getIcons().add(img);
+            } catch (Exception e) {
+                System.out.println("Error al cargar la imagen: " + e.getMessage());
+            }
+            scene.getStylesheets().add(getClass().getResource("/Estilos/Estilos.css").toExternalForm());
+            stage.setTitle("Añade un animal");
+            stage.initOwner(ventana);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+            cargarAnimales();
+
+        } catch (IOException e) {
+            ArrayList<String> lst=new ArrayList<>();
+            lst.add("No se ha podido abrir la ventana.");
+            alerta(lst);
+        }
+    }
+
+    @FXML
+    void borrarAnimal(ActionEvent event) {
+        Animal animal = tablaVista.getSelectionModel().getSelectedItem();
+
+        if (animal == null) {
+            ArrayList<String> lst = new ArrayList<>();
+            lst.add("No has seleccionado ningún animal.");
+            alerta(lst);
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.initOwner(tablaVista.getScene().getWindow());
+        alert.setHeaderText(null);
+        alert.setTitle("Confirmación");
+        alert.setContentText("¿Estás seguro que quieres eliminar este animal? Esta acción no se puede deshacer.");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            if (DaoAnimal.eliminar(animal)) {
+                cargarAnimales();
+                confirmacion("Animal eliminado correctamente");
+            } else {
+                ArrayList<String> lst = new ArrayList<>();
+                lst.add("No se ha podido eliminar el animal.");
+                alerta(lst);
+            }
+        }
+    }
+
+    @FXML
+    void editarAnimal(ActionEvent event) {
+        Animal animal = (Animal) tablaVista.getSelectionModel().getSelectedItem();
+
+        if (animal == null) {
+            ArrayList<String> lst = new ArrayList<>();
+            lst.add("No has seleccionado ningún animal.");
+            alerta(lst);
+        } else {
+            try {
+
+                Window ventana = tablaVista.getScene().getWindow();
+
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/DatosAnimal.fxml"));
+                DatosAnimalController controlador = new DatosAnimalController(animal);
+                fxmlLoader.setController(controlador);
+                Scene scene = new Scene(fxmlLoader.load());
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                try {
+                    Image img = new Image(getClass().getResource("/Imagenes/icono.png").toString());
+                    stage.getIcons().add(img);
+                } catch (Exception e) {
+                    System.out.println("Error al cargar la imagen: " + e.getMessage());
+                }
+                scene.getStylesheets().add(getClass().getResource("/Estilos/Estilos.css").toExternalForm());
+
+                stage.setTitle("Edita un animal");
+                stage.initOwner(ventana);
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.showAndWait();
+
+                cargarAnimales();
+
+            } catch (IOException e) {
+                ArrayList<String> lst = new ArrayList<>();
+                lst.add("No se ha podido abrir la ventana.");
+                alerta(lst);
+            }
+        }
+    }
+    @FXML
+    void infoAnimal(ActionEvent event) {
+        Object selectedAnimal = tablaVista.getSelectionModel().getSelectedItem();
+        if (selectedAnimal == null) {
+            ArrayList<String> errores = new ArrayList<>();
+            errores.add("Selecciona un animal antes de ver su información");
+            alerta(errores);
+        } else {
+            ArrayList<String> info = new ArrayList<>();
+
+            if (selectedAnimal instanceof Animal) {
+                Animal animal = (Animal) selectedAnimal;
+                info.add("Nombre: " + animal.getNombre());
+                info.add("Especie: " + animal.getEspecie());
+                info.add("Raza: " + animal.getRaza());
+                info.add("Sexo: " + animal.getSexo());
+                info.add("Edad: " + animal.getEdad());
+                info.add("Peso: " + animal.getPeso());
+                info.add("Observaciones: " + animal.getObservaciones());
+                info.add("Fecha de primera consulta: " + (animal.getFechaPrimeraConsulta() != null ? animal.getFechaPrimeraConsulta().toString() : "No disponible"));
+                String contenido = String.join("\n", info);
+                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                alerta.setHeaderText(null);
+                alerta.setTitle("Información");
+                alerta.setContentText(contenido);
+                alerta.showAndWait();
+            }
+        }
+    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -137,18 +268,18 @@ public class AnimalController implements Initializable {
         ContextMenu contextMenu = new ContextMenu();
 
         MenuItem editItem = new MenuItem("Editar Animal");
-        //editItem.setOnAction(event -> editarAnimal(null));
+        editItem.setOnAction(event -> editarAnimal(null));
 
 
         MenuItem deleteItem = new MenuItem("Borrar Animal");
-        //deleteItem.setOnAction(event -> borrarAnimal(null));
+        deleteItem.setOnAction(event -> borrarAnimal(null));
 
         contextMenu.getItems().addAll(editItem, deleteItem);
 
         tablaVista.setContextMenu(contextMenu);
         tablaVista.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
-                //infoAnimal(null);
+                infoAnimal(null);
             }
         });
         rootPane.setOnKeyPressed(event -> {
