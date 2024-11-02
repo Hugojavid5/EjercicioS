@@ -1,11 +1,13 @@
 package org.hugo.ejercicios.Model;
 
 import java.sql.Blob;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
-
+/**
+ * Representa un animal en la base de datos veterinaria.
+ * Incluye información sobre el nombre, especie, raza, sexo, edad, peso, observaciones, fecha de primera consulta y una foto del animal.
+ */
 public class Animal {
     private int id;
     private String nombre;
@@ -18,7 +20,20 @@ public class Animal {
     private Date fechaPrimeraConsulta;
     private Blob foto;
 
-
+    /**
+     * Constructor completo de la clase Animal.
+     *
+     * @param id                  el identificador único del animal
+     * @param nombre              el nombre del animal
+     * @param especie             la especie del animal
+     * @param raza                la raza del animal
+     * @param sexo                el sexo del animal
+     * @param edad                la edad del animal en años
+     * @param peso                el peso del animal en kilogramos
+     * @param observaciones       observaciones adicionales sobre el animal
+     * @param fechaPrimeraConsulta la fecha de la primera consulta veterinaria
+     * @param foto                la foto del animal como un Blob
+     */
     public Animal(int id, String nombre, String especie, String raza, String sexo, int edad, double peso, String observaciones, Date fechaPrimeraConsulta, Blob foto) {
         this.id = id;
         this.nombre = nombre;
@@ -32,9 +47,13 @@ public class Animal {
         this.foto = foto;
     }
 
-
+    /**
+     * Constructor vacío para la clase Animal.
+     */
     public Animal() {
     }
+
+    /** Getter y setter para cada uno de los atributos de la clase. **/
 
     public int getId() {
         return id;
@@ -71,6 +90,7 @@ public class Animal {
     public String getSexo() {
         return sexo;
     }
+
     public void setSexo(String sexo) {
         this.sexo = sexo;
     }
@@ -102,6 +122,7 @@ public class Animal {
     public Date getFechaPrimeraConsulta() {
         return fechaPrimeraConsulta;
     }
+
     public void setFechaPrimeraConsulta(Date fechaPrimeraConsulta) {
         this.fechaPrimeraConsulta = fechaPrimeraConsulta;
     }
@@ -114,6 +135,12 @@ public class Animal {
         this.foto = foto;
     }
 
+    /**
+     * Compara si dos objetos Animal son iguales en función de todos sus atributos.
+     *
+     * @param o el objeto a comparar
+     * @return true si los atributos de ambos objetos son iguales, de lo contrario false
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -122,11 +149,21 @@ public class Animal {
         return id == animal.id && edad == animal.edad && Double.compare(peso, animal.peso) == 0 && Objects.equals(nombre, animal.nombre) && Objects.equals(especie, animal.especie) && Objects.equals(raza, animal.raza) && Objects.equals(sexo, animal.sexo) && Objects.equals(observaciones, animal.observaciones) && Objects.equals(fechaPrimeraConsulta, animal.fechaPrimeraConsulta) && Objects.equals(foto, animal.foto);
     }
 
+    /**
+     * Genera un código hash para el objeto Animal.
+     *
+     * @return el código hash basado en todos los atributos del objeto
+     */
     @Override
     public int hashCode() {
         return Objects.hash(id, nombre, especie, raza, sexo, edad, peso, observaciones, fechaPrimeraConsulta, foto);
     }
 
+    /**
+     * Convierte el objeto Animal en una representación de cadena.
+     *
+     * @return una cadena que representa al animal, incluyendo su nombre, especie, raza, sexo, edad, peso, observaciones y fecha de primera consulta
+     */
     @Override
     public String toString() {
         return nombre +

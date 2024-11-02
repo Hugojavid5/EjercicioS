@@ -11,7 +11,16 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.*;
 
+/**
+ * Clase DaoAnimal que proporciona operaciones CRUD para la gestión de animales en la base de datos.
+ */
 public class DaoAnimal {
+
+    /**
+     * Obtiene un animal de la base de datos mediante su ID.
+     * @param id Identificador único del animal.
+     * @return El animal correspondiente al ID o null si no existe.
+     */
     public static Animal getAnimal(int id) {
         ConexionBBDD connection;
         Animal animal = null;
@@ -43,6 +52,11 @@ public class DaoAnimal {
         }
         return animal;
     }
+
+    /**
+     * Carga el listado completo de animales desde la base de datos.
+     * @return ObservableList de objetos Animal que representa todos los animales en la base de datos.
+     */
     public static ObservableList<Animal> cargarListado() {
         ConexionBBDD connection;
         ObservableList<Animal> animalList = FXCollections.observableArrayList();
@@ -74,6 +88,13 @@ public class DaoAnimal {
         }
         return animalList;
     }
+
+    /**
+     * Modifica un animal existente en la base de datos con los datos proporcionados.
+     * @param animal Animal actual en la base de datos.
+     * @param animalNuevo Animal con los datos actualizados.
+     * @return true si la modificación fue exitosa; false en caso contrario.
+     */
     public static boolean modificar(Animal animal, Animal animalNuevo) {
         ConexionBBDD connection;
         PreparedStatement pstmt;
@@ -103,6 +124,11 @@ public class DaoAnimal {
         }
     }
 
+    /**
+     * Inserta un nuevo animal en la base de datos.
+     * @param animal Objeto Animal a insertar.
+     * @return ID generado para el nuevo animal si la inserción fue exitosa; -1 en caso contrario.
+     */
     public static int insertar(Animal animal) {
         ConexionBBDD connection;
         PreparedStatement pstmt;
@@ -140,6 +166,11 @@ public class DaoAnimal {
         }
     }
 
+    /**
+     * Elimina un animal de la base de datos.
+     * @param animal Objeto Animal a eliminar.
+     * @return true si la eliminación fue exitosa; false en caso contrario.
+     */
     public static boolean eliminar(Animal animal) {
         ConexionBBDD connection;
         PreparedStatement pstmt;
@@ -159,6 +190,14 @@ public class DaoAnimal {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Convierte un archivo de imagen a un Blob para ser almacenado en la base de datos.
+     * @param file Archivo a convertir.
+     * @return Blob que representa el archivo de imagen.
+     * @throws SQLException Si ocurre un error de SQL.
+     * @throws FileNotFoundException Si el archivo no se encuentra.
+     */
     public static Blob convertFileToBlob(File file) throws SQLException, FileNotFoundException {
         ConexionBBDD connection = new ConexionBBDD();
         try (Connection conn = connection.getConnection();

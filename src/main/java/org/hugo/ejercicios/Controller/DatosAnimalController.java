@@ -100,18 +100,33 @@ public class DatosAnimalController implements Initializable {
     private TextField txt_Sexo;
 
     private Blob imagenBlob;
-
+    /**
+     * Constructor que inicializa el controlador con un objeto de tipo animal.
+     *
+     * @param animal El objeto animal que se cargará en el controlador.
+     */
     public DatosAnimalController(Object animal) {
         this.animal = animal;
     }
 
-
+    /**
+     * Constructor vacío.
+     */
     public DatosAnimalController(){}
-
+    /**
+     * Establece el objeto animal en el controlador.
+     *
+     * @param animal El objeto animal a establecer.
+     */
     public void setAnimal(Object animal) {
         this.animal = animal;
     }
-
+    /**
+     * Método de inicialización para configurar el controlador después de cargar su contenido.
+     *
+     * @param url La ubicación utilizada para resolver rutas relativas.
+     * @param resourceBundle El recurso que contiene propiedades de localización específicas.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         btt_Guardar.setDefaultButton(true);
@@ -144,13 +159,21 @@ public class DatosAnimalController implements Initializable {
             }
         }
     }
-
+/**
+ * Cierra la ventana sin realizar cambios.
+ *
+ * @param event Evento de acción que activa la operación de cancelación.
+ */
     @FXML
     void cancelar(ActionEvent event) {
         Stage stage = (Stage) txt_Nombre.getScene().getWindow();
         stage.close();
     }
-
+    /**
+     * Guarda o modifica el animal basado en los datos del formulario.
+     *
+     * @param event Evento de acción que activa la operación de guardado.
+     */
     @FXML
     void guardar(ActionEvent event) {
         ArrayList<String> lst = new ArrayList<>();
@@ -223,6 +246,11 @@ public class DatosAnimalController implements Initializable {
         }
     }
 
+    /**
+     * Modifica el animal existente en la base de datos con los datos ingresados en el formulario.
+     *
+     * @return true si la modificación fue exitosa, false en caso contrario.
+     */
     public boolean modificarAnimal() {
         try {
             Animal animal = new Animal();
@@ -290,7 +318,11 @@ public class DatosAnimalController implements Initializable {
             return false;
         }
     }
-
+    /**
+     * Crea un nuevo animal con los datos ingresados en el formulario y lo guarda en la base de datos.
+     *
+     * @return true si la creación fue exitosa, false en caso contrario.
+     */
     public boolean crearAnimal() {
         try {
             Animal animal = new Animal();
@@ -350,7 +382,11 @@ public class DatosAnimalController implements Initializable {
             return false;
         }
     }
-
+    /**
+     * Muestra una alerta de error con los mensajes especificados.
+     *
+     * @param textos Lista de mensajes de error para mostrar en la alerta.
+     */
     public void alerta(ArrayList<String> textos) {
         String contenido = String.join("\n", textos);
         Alert alerta = new Alert(Alert.AlertType.ERROR);
@@ -360,7 +396,11 @@ public class DatosAnimalController implements Initializable {
         alerta.showAndWait();
     }
 
-
+    /**
+     * Muestra una alerta de confirmación con los mensajes especificados.
+     *
+     * @param textos Lista de mensajes de confirmación para mostrar en la alerta.
+     */
     public void confirmacion(ArrayList<String> textos) {
         String contenido = String.join("\n", textos);
         Alert alerta = new Alert(Alert.AlertType.INFORMATION);
@@ -369,7 +409,11 @@ public class DatosAnimalController implements Initializable {
         alerta.setContentText(contenido);
         alerta.showAndWait();
     }
-
+    /**
+     * Permite seleccionar una imagen del sistema de archivos para asociarla con el animal.
+     *
+     * @param actionEvent Evento de acción que activa la selección de imagen.
+     */
     @FXML
     public void elegirImg(ActionEvent actionEvent) {
         FileChooser fileChooser = new FileChooser();

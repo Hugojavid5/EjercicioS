@@ -8,8 +8,18 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * La clase {@code App} es la entrada principal de la aplicación JavaFX que gestiona
+ * la interfaz de usuario para la gestión de animales.
+ */
 public class App extends Application {
 
+    /**
+     * Inicializa y muestra la ventana principal de la aplicación.
+     *
+     * @param stage el escenario principal de la aplicación.
+     * @throws IOException si ocurre un error al cargar el archivo FXML.
+     */
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/fxml/animales.fxml"));
@@ -26,6 +36,12 @@ public class App extends Application {
         stage.setScene(scene);
         stage.show();
     }
+
+    /**
+     * El método principal que inicia la aplicación JavaFX.
+     *
+     * @param args argumentos de la línea de comandos.
+     */
     public static void main(String[] args) {
         launch();
     }

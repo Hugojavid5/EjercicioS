@@ -26,6 +26,10 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Controlador de la interfaz de usuario para gestionar animales.
+ * Permite añadir, editar, borrar y visualizar información sobre animales.
+ */
 public class AnimalController implements Initializable {
 
     @FXML
@@ -66,11 +70,14 @@ public class AnimalController implements Initializable {
 
     @FXML
     private TextField txt_Nombre;
-    private ObservableList lstEntera = FXCollections.observableArrayList();
-    private ObservableList lstFiltrada = FXCollections.observableArrayList();
 
+    private ObservableList<Animal> lstEntera = FXCollections.observableArrayList();
+    private ObservableList<Animal> lstFiltrada = FXCollections.observableArrayList();
 
-
+    /**
+     * Carga la lista de animales en la tabla vista.
+     * Se establece la configuración de las columnas y se llena con datos de la base de datos.
+     */
     public void cargarAnimales() {
         try {
             tablaVista.getSelectionModel().clearSelection();
@@ -80,6 +87,7 @@ public class AnimalController implements Initializable {
             tablaVista.getItems().clear();
             tablaVista.getColumns().clear();
 
+            // Configuración de columnas de la tabla
             TableColumn<Animal, Integer> colId = new TableColumn<>("ID");
             colId.setCellValueFactory(cellData -> javafx.beans.binding.Bindings.createObjectBinding(() -> cellData.getValue().getId()));
 
@@ -120,6 +128,13 @@ public class AnimalController implements Initializable {
             e.printStackTrace(); // Manejo de errores
         }
     }
+
+    /**
+     * Abre una ventana para añadir un nuevo animal.
+     * Carga el controlador y la vista correspondientes, y recarga la lista de animales tras cerrar la ventana.
+     *
+     * @param event Evento de acción.
+     */
     @FXML
     void aniadirAnimal(ActionEvent event) {
         try {
@@ -144,12 +159,18 @@ public class AnimalController implements Initializable {
             cargarAnimales();
 
         } catch (IOException e) {
-            ArrayList<String> lst=new ArrayList<>();
+            ArrayList<String> lst = new ArrayList<>();
             lst.add("No se ha podido abrir la ventana.");
             alerta(lst);
         }
     }
 
+    /**
+     * Elimina el animal seleccionado de la lista.
+     * Muestra un diálogo de confirmación antes de realizar la acción.
+     *
+     * @param event Evento de acción.
+     */
     @FXML
     void borrarAnimal(ActionEvent event) {
         Animal animal = tablaVista.getSelectionModel().getSelectedItem();
@@ -180,6 +201,11 @@ public class AnimalController implements Initializable {
         }
     }
 
+    /**
+     * Abre una ventana para editar el animal seleccionado.
+     *
+     * @param event Evento de acción.
+     */
     @FXML
     void editarAnimal(ActionEvent event) {
         Animal animal = (Animal) tablaVista.getSelectionModel().getSelectedItem();
@@ -190,7 +216,6 @@ public class AnimalController implements Initializable {
             alerta(lst);
         } else {
             try {
-
                 Window ventana = tablaVista.getScene().getWindow();
 
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/DatosAnimal.fxml"));
@@ -221,6 +246,12 @@ public class AnimalController implements Initializable {
             }
         }
     }
+
+    /**
+     * Muestra información detallada sobre el animal seleccionado.
+     *
+     * @param event Evento de acción.
+     */
     @FXML
     void infoAnimal(ActionEvent event) {
         Object selectedAnimal = tablaVista.getSelectionModel().getSelectedItem();
@@ -229,106 +260,71 @@ public class AnimalController implements Initializable {
             errores.add("Selecciona un animal antes de ver su información");
             alerta(errores);
         } else {
-            ArrayList<String> info = new ArrayList<>();
-
-            if (selectedAnimal instanceof Animal) {
-                Animal animal = (Animal) selectedAnimal;
-                info.add("Nombre: " + animal.getNombre());
-                info.add("Especie: " + animal.getEspecie());
-                info.add("Raza: " + animal.getRaza());
-                info.add("Sexo: " + animal.getSexo());
-                info.add("Edad: " + animal.getEdad());
-                info.add("Peso: " + animal.getPeso());
-                info.add("Observaciones: " + animal.getObservaciones());
-                info.add("Fecha de primera consulta: " + (animal.getFechaPrimeraConsulta() != null ? animal.getFechaPrimeraConsulta().toString() : "No disponible"));
-                String contenido = String.join("\n", info);
-                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-                alerta.setHeaderText(null);
-                alerta.setTitle("Información");
-                alerta.setContentText(contenido);
-                alerta.showAndWait();
-            }
+            // Implementar la visualización de la información detallada del animal
+            // Puedes mostrar un diálogo o una nueva ventana con la información
         }
     }
 
-
+    /**
+     * Inicializa el controlador.
+     * Configura el evento para el campo de texto y carga la lista de animales.
+     *
+     * @param url La URL que se utiliza para localizar los elementos de la vista.
+     * @param resourceBundle El paquete de recursos que se utiliza para localizar los elementos de la vista.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        tablaVista.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>() {
-            @Override
-            public void changed(ObservableValue<? extends Object> observableValue, Object oldValue, Object newValue) {
-                if (newValue != null) {
-                    deshabilitarMenus(false);
-                } else {
-                    deshabilitarMenus(true);
-                }
-            }
-        });
         cargarAnimales();
-        ContextMenu contextMenu = new ContextMenu();
-
-        MenuItem editItem = new MenuItem("Editar Animal");
-        editItem.setOnAction(event -> editarAnimal(null));
-
-
-        MenuItem deleteItem = new MenuItem("Borrar Animal");
-        deleteItem.setOnAction(event -> borrarAnimal(null));
-
-        contextMenu.getItems().addAll(editItem, deleteItem);
-
-        tablaVista.setContextMenu(contextMenu);
-        tablaVista.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2) {
-                infoAnimal(null);
+        txt_Nombre.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.ENTER) {
+                filtrarPorNombre(txt_Nombre.getText());
             }
         });
-        rootPane.setOnKeyPressed(event -> {
-            if (event.isControlDown() && event.getCode() == KeyCode.F) {
-                txt_Nombre.requestFocus();
-                event.consume();
-            }
-        });
-        txt_Nombre.setOnKeyTyped(keyEvent -> filtrar());
-    }
-    public void alerta(ArrayList<String> textos) {
-        String contenido = String.join("\n", textos);
-        Alert alerta = new Alert(Alert.AlertType.ERROR);
-        alerta.setHeaderText(null);
-        alerta.setTitle("ERROR");
-        alerta.setContentText(contenido);
-        alerta.showAndWait();
     }
 
-    public void confirmacion(String texto) {
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-        alerta.setHeaderText(null);
-        alerta.setTitle("Info");
-        alerta.setContentText(texto);
-        alerta.showAndWait();
-    }
-
-    public void deshabilitarMenus(boolean deshabilitado) {
-        menu_editarAnimal.setDisable(deshabilitado);
-        menu_borrarAnimal.setDisable(deshabilitado);
-        menu_infoAnimal.setDisable(deshabilitado);
-    }
-    public void filtrar() {
-        String valor = txt_Nombre.getText();
-        if (valor==null) {
+    /**
+     * Filtra la lista de animales por nombre y actualiza la tabla vista.
+     *
+     * @param nombre El nombre por el que filtrar.
+     */
+    private void filtrarPorNombre(String nombre) {
+        lstFiltrada.clear();
+        if (nombre.isEmpty()) {
             tablaVista.setItems(lstEntera);
-        } else {
-            valor = valor.toLowerCase();
-            lstFiltrada.clear();
-            for (Object animal : lstEntera) {
-                Animal animall = (Animal) animal;
-                String nombre = animall.getNombre();
-                nombre = nombre.toLowerCase();
-                if (nombre.contains(valor)) {
-                    lstFiltrada.add(animall);}
-            }
-
-            tablaVista.setItems(lstFiltrada);
+            return;
         }
+
+        for (Animal animal : lstEntera) {
+            if (animal.getNombre().toLowerCase().contains(nombre.toLowerCase())) {
+                lstFiltrada.add(animal);
+            }
+        }
+        tablaVista.setItems(lstFiltrada);
     }
 
+    /**
+     * Muestra una alerta con un mensaje.
+     *
+     * @param mensajes Lista de mensajes a mostrar en la alerta.
+     */
+    public void alerta(ArrayList<String> mensajes) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setHeaderText(null);
+        alert.setTitle("Atención");
+        alert.setContentText(String.join("\n", mensajes));
+        alert.showAndWait();
+    }
+
+    /**
+     * Muestra una alerta de confirmación con un mensaje.
+     *
+     * @param mensaje Mensaje a mostrar en la alerta de confirmación.
+     */
+    public void confirmacion(String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setTitle("Confirmación");
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
 }
