@@ -38,7 +38,8 @@ public class App extends Application {
     }
 
     /**
-     * El metodo principal que inicia la aplicación JavaFX.
+     * El me
+     * todo principal que inicia la aplicación JavaFX.
      *
      * @param args argumentos de la línea de comandos.
      */
