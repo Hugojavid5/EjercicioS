@@ -122,7 +122,7 @@ public class DatosAnimalController implements Initializable {
         this.animal = animal;
     }
     /**
-     * Método de inicialización para configurar el controlador después de cargar su contenido.
+     * Metodo de inicialización para configurar el controlador despues de cargar su contenido.
      *
      * @param url La ubicación utilizada para resolver rutas relativas.
      * @param resourceBundle El recurso que contiene propiedades de localización específicas.

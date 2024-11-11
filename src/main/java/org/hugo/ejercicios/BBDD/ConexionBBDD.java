@@ -12,7 +12,7 @@ import java.util.Properties;
 /**
  * La clase {@code ConexionBBDD} gestiona la conexión a una base de datos.
  * Se encarga de cargar las propiedades de conexión desde un archivo
- * y proporcionar un método para obtener la conexión.
+ * y proporcionar un metodo para obtener la conexion.
  */
 public class ConexionBBDD {
     private final Connection connection;
