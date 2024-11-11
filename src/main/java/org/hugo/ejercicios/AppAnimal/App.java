@@ -10,7 +10,7 @@ import java.io.IOException;
 
 /**
  * La clase {@code App} es la entrada principal de la aplicación JavaFX que gestiona
- * la interfaz de usuario para la gestión de animales.
+ * la interfaz de usuario para la gestión de animales
  */
 public class App extends Application {
 
