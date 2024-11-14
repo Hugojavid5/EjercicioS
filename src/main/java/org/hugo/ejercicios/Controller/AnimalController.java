@@ -285,9 +285,8 @@ public class AnimalController implements Initializable {
         try {
             new ConexionBBDD();
         } catch (SQLException | FileNotFoundException e) {
-            String mensajeError = resources != null ? resources.getString("No se puede acceder a la base de datos") : "No se puede acceder a la base de datos";
             ArrayList<String> mensajes = new ArrayList<>();
-            mensajes.add(mensajeError + ": " + e.getLocalizedMessage());
+            mensajes.add("No se puede acceder a la base de datos: " + e.getLocalizedMessage());
             alerta(mensajes);
             Platform.exit(); // Cierra la aplicación
             return;
@@ -300,6 +299,7 @@ public class AnimalController implements Initializable {
             }
         });
     }
+
 
 
 
