@@ -1,5 +1,7 @@
 package org.hugo.ejercicios.Controller;
 
+import javafx.application.Platform;
+import org.hugo.ejercicios.BBDD.ConexionBBDD;
 import org.hugo.ejercicios.Dao.DaoAnimal;
 import org.hugo.ejercicios.Model.Animal;
 import javafx.beans.value.ChangeListener;
@@ -20,8 +22,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -70,6 +74,8 @@ public class AnimalController implements Initializable {
 
     @FXML
     private TextField txt_Nombre;
+    @FXML
+    private ResourceBundle resources;
 
     private ObservableList<Animal> lstEntera = FXCollections.observableArrayList();
     private ObservableList<Animal> lstFiltrada = FXCollections.observableArrayList();
@@ -260,8 +266,7 @@ public class AnimalController implements Initializable {
             errores.add("Selecciona un animal antes de ver su información");
             alerta(errores);
         } else {
-            // Implementar la visualización de la información detallada del animal
-            // Puedes mostrar un diálogo o una nueva ventana con la información
+
         }
     }
 
@@ -274,6 +279,20 @@ public class AnimalController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        this.resources = resourceBundle;
+        // Controlar acceso a la base de datos
+        try {
+            new ConexionBBDD();
+        } catch (SQLException | FileNotFoundException e) {
+            String mensajeError = resources != null ? resources.getString("No se puede acceder a la base de datos") : "No se puede acceder a la base de datos";
+            ArrayList<String> mensajes = new ArrayList<>();
+            mensajes.add(mensajeError + ": " + e.getLocalizedMessage());
+            alerta(mensajes);
+            Platform.exit(); // Cierra la aplicación
+            return;
+        }
+
         cargarAnimales();
         txt_Nombre.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode() == KeyCode.ENTER) {
@@ -281,6 +300,8 @@ public class AnimalController implements Initializable {
             }
         });
     }
+
+
 
     /**
      * Filtra la lista de animales por nombre y actualiza la tabla vista.
